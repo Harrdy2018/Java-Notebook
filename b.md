@@ -1,5 +1,5 @@
 # private/default/protected/public
-<table border="1">
+<table>
   <thead>
     <tr>
       <th>A</th>
