@@ -12,7 +12,7 @@
   <tbody>
     <tr>
       <td>11111111111111111</td>
-      <td>&radic;</td>
+      <td>&radic</td>
       <td>66666666666666</td>
       <td>7777777</td>
     </tr>
