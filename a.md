@@ -11,3 +11,19 @@ System.out.println(a);
 System.out.println(b);
 //直接这样写是会报错的，在类中初始化即可
 ```
+***
+```java
+    Integer i=new Integer(100);
+    Integer j=new Integer(100);
+    System.out.print(i==j);//fasle
+
+    Integer i1=Integer.valueOf(100);
+    Integer j1=Integer.valueOf(100);
+    System.out.print(i1==j1);//true
+```
+```
+第一种写法为什么不等呢？
+由于Integer变量实际上是对一个Integer对象的引用，所以两个通过new生成的Integer变量永远是不相等的，现在是在比较地址
+
+第一种写法已经被削掉了，建议第二种，第二种为什么相等，看下面即可；
+```
