@@ -87,4 +87,4 @@ class Child extends Father{
   public int age;
 }
 ```
-### ***从最后对 child 的输出可以看到，A 和 B 的 child 对象，实际上还是指向了统一个对象，只对对它的引用进行了传递。
+* 从最后对 child 的输出可以看到，A 和 B 的 child 对象，实际上还是指向了统一个对象，只对对它的引用进行了传递。
