@@ -35,7 +35,7 @@ class Father implements Cloneable{
     return null;
   }
 }
-class Child extends Father{
+class Child{
   public String name;
   public int age;
 }
@@ -82,7 +82,7 @@ class Father implements Cloneable{
     return null;
   }
 }
-class Child extends Father{
+class Child{
   public String name;
   public int age;
 }
