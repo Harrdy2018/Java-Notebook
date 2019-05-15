@@ -1,5 +1,53 @@
 # private/default/protected/public
 ***
+## protected保护的属性和方法  很特别
+### 同一个包中
+* Person.java
+```java
+package com.lukang.www;
+
+/**
+ * Person
+ */
+public class Person {
+
+  protected int a=4;
+  protected int getA(){
+    return this.a;
+  }
+}
+```
+* Student.java
+```java
+package com.lukang.www;
+
+/**
+ * Student
+ */
+public class Student extends Person{
+
+  protected int getB() {
+    return this.getA();
+  }
+}
+```
+* Manager.java
+```java
+package com.lukang.www;
+
+/**
+ * Manager
+ */
+public class Manager {
+
+  public static void main(String[] args) {
+    Student s=new Student();
+    System.out.println(s.getB());//4
+    System.out.println(s.getA());//4
+  }
+}
+```
+***
 <table>
   <thead>
     <tr>
@@ -41,8 +89,3 @@
     </tr>
   </tbody>
 </table>
-***
-## protected保护的属性和方法
-```
-hahha
-```
