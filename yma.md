@@ -34,8 +34,60 @@ public final class String
     @Native static final byte UTF16  = 1;
 }
 ```
+## `StringUTF16`类重要方法
+* char数组转变为byte数组 返回byte[]长度
 ```java
-//先加载静态代码块 COMPACT_STRINGS = true; 默认采用 LATIN1编码(一个字符一字节表示)，否则采用UTF16编码(一个字符两个字节表示)
+package com.lukang.www;
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    char[] cc=new char[]{'a','b','c'};
+    for(char c: cc){
+      System.out.println(c);
+    }
+    String ss=new String(cc);
+    System.out.println(ss);
+    byte[] ret = new byte[cc.length];
+    int ll=Test.compress(cc, 0, ret, 0, cc.length);
+    System.out.println(ll);
+    for(byte rr:ret){
+      System.out.println(rr);//ret-->[97,98,99]
+    }
+  }
+}
+class Test{
+  // compressedCopy char[] -> byte[]
+  public static int compress(char[] src, int srcOff, byte[] dst, int dstOff, int len) {
+      for (int i = 0; i < len; i++) {
+          char c = src[srcOff];
+          if (c > 0xFF) {
+              len = 0;
+              break;
+          }
+          dst[dstOff] = (byte)c;
+          srcOff++;
+          dstOff++;
+      }
+      return len;
+  }
+}
+```
+* 如果能压缩,返回转换之后的byte[]
+```java
+public static byte[] compress(char[] val, int off, int len) {
+        byte[] ret = new byte[len];
+        if (compress(val, off, ret, 0, len) == len) {
+            return ret;
+        }
+        return null;
+    }
+```
+## 分析
+```java
+//先加载静态代码块 COMPACT_STRINGS = true; 
+//默认采用 LATIN1编码(一个字符一字节表示)，否则采用UTF16编码(一个字符两个字节表示)
 
 //以char数组作为构造参数演示
     char[] cc=new char[]{'a','b','c'};
@@ -57,7 +109,9 @@ String(char[] value, int off, int len, Void sig) {
             return;
         }
         if (COMPACT_STRINGS) {
-            byte[] val = StringUTF16.compress(value, off, len);
+            //value-->['a','b','c'] off-->0 len-->3
+            byte[] val = StringUTF16.compress(value, off, len); //返回压缩之后的byte数组
+           // val-->[97,98,99]
             if (val != null) {
                 this.value = val;
                 this.coder = LATIN1;
