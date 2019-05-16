@@ -276,6 +276,21 @@ class Test{
   }
 }
 ```
+##  `StringLatin1`类重要方法
+```java
+    //直接比较对应的值即可
+    public static boolean equals(byte[] value, byte[] other) {
+        if (value.length == other.length) {
+            for (int i = 0; i < value.length; i++) {
+                if (value[i] != other[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+```
 ## 分析 `a.equals(b)` 过程
 ```java
     public boolean equals(Object anObject) {
