@@ -201,3 +201,106 @@ String(char[] value, int off, int len, Void sig) {
         //coder-->>byte类型 编码方式UTF16(1静态的常量)
     }
 ```
+## `StringUTF16`类重要方法
+```java
+package com.lukang.www;
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    byte[] a=new byte[]{0,-1,1,0,1,1};
+    byte[] b=new byte[]{0,-1,1,0,1,1};
+    Test.equals(a, b);
+  }
+}
+class Test{
+  private static final int HI_BYTE_SHIFT=8;
+  private static final int LO_BYTE_SHIFT=0;
+  public static boolean equals(byte[] value, byte[] other) {
+    //只有在长度相等的时候比较才有意义,value.length一定是偶数
+    if (value.length == other.length) {
+        //减半len-->3
+        int len = value.length >> 1;
+        for (int i = 0; i < len; i++) {
+            if (getChar(value, i) != getChar(other, i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+  }
+  static char getChar(byte[] val, int index) {
+    /*
+    index=0;翻倍还是0
+    val[0]=0--byte类型
+        00000000 
+    &   11111111
+        00000000
+    <<8 00000000 00000000
+    index++ index=1
+    val[0]=-1--byte类型
+        11111111
+    &   11111111
+        11111111
+    <<0 11111111
+
+        00000000  00000000
+    || 
+                  11111111 
+        00000000  11111111--(char)255
+    */
+    /*
+    index=1;翻倍是2
+    val[2]=1--byte类型
+      00000001 
+    & 11111111
+      00000001
+    <<8 00000001 00000000
+    index++ index=3
+    val[3]=0--byte类型
+        00000000
+    &   11111111
+        00000000
+    <<0 00000000
+
+        00000001  00000000
+    || 
+                  00000000 
+        00000001  00000000--(char)256
+    */
+    index <<= 1;
+    return (char)(((val[index++] & 0xff) << HI_BYTE_SHIFT) |
+                  ((val[index]   & 0xff) << LO_BYTE_SHIFT));
+  }
+}
+```
+## 分析 `a.equals(b)` 过程
+```java
+    public boolean equals(Object anObject) {
+        //如果两个都是引用类型，直接用==比较即可，==在引用类型时，比较的是地址，如果地址一样，一定相等
+        if (this == anObject) {
+            return true;
+        }
+        //如果是String类的实例，继续
+        if (anObject instanceof String) {
+            String aString = (String)anObject;
+            //coder()返回编码类型byte类型，默认是LATIN1编码
+            //如果两个编码一样时才能比较
+            if (coder() == aString.coder()) {
+                /*
+                String a=new String("ÿĀā");  [255,256,257]
+                String b=new String("ÿĀā");
+                a.equals(b);
+                我们先看UTF16编码，待会讲为什么255是[0,-1]表示
+                a-->value-->[0,-1,1,0,1,1]
+                b-->value-->[0,-1,1,0,1,1]
+                */
+                return isLatin1() ? StringLatin1.equals(value, aString.value)
+                                  : StringUTF16.equals(value, aString.value);
+            }
+        }
+        return false;
+    }
+```
