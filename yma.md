@@ -155,7 +155,7 @@ class Test{
 }
 }
 ```
-## 分析
+## 分析 `public String(char value[])`过程
 ```java
 //先加载静态代码块 COMPACT_STRINGS = true; 
 //默认采用 LATIN1编码(一个字符一字节表示)，否则采用UTF16编码(一个字符两个字节表示)
@@ -181,8 +181,9 @@ String(char[] value, int off, int len, Void sig) {
         }
         if (COMPACT_STRINGS) {
             //value-->['a','b','c'] off-->0 len-->3
-            byte[] val = StringUTF16.compress(value, off, len); //返回压缩之后的byte数组
-           // val-->[97,98,99]
+            byte[] val = StringUTF16.compress(value, off, len);
+            //返回压缩之后的byte数组(也就是LATIN1编码)
+            // val-->[97,98,99]
             if (val != null) {
                 this.value = val;
                 this.coder = LATIN1;    
