@@ -184,13 +184,19 @@ String(char[] value, int off, int len, Void sig) {
             byte[] val = StringUTF16.compress(value, off, len); //返回压缩之后的byte数组
            // val-->[97,98,99]
             if (val != null) {
-                this.value = val;        //最后得到实例的两个private属性
-                this.coder = LATIN1;     //value-->>byte数组 [97,98,99] coder-->>byte类型 编码方式LATIN1(0静态的常量)
+                this.value = val;
+                this.coder = LATIN1;    
                 return;
             }
+           //最后得到实例的两个private属性
+           //value-->>byte数组 [97,98,99] 
+           //coder-->>byte类型 编码方式LATIN1(0静态的常量)
         }
         //如果上述条件不满足更改编码类型为UTF16
         this.coder = UTF16;
         this.value = StringUTF16.toBytes(value, off, len);
+        //最后得到实例的两个private属性
+        //value-->>byte数组 [0,97,0,98,0,99] 
+        //coder-->>byte类型 编码方式UTF16(1静态的常量)
     }
 ```
