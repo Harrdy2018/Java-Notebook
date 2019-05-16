@@ -311,6 +311,9 @@ class Test{
                 我们先看UTF16编码，待会讲为什么255是[0,-1]表示
                 a-->value-->[0,-1,1,0,1,1]
                 b-->value-->[0,-1,1,0,1,1]
+                我们看LATIN1编码，第一个0，由于byte截取，第二个零由于break,为默认值，看上面代码即可
+                a-->value-->[-1,0,0]
+                b-->value-->[0,0,0]
                 */
                 return isLatin1() ? StringLatin1.equals(value, aString.value)
                                   : StringUTF16.equals(value, aString.value);
