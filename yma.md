@@ -84,6 +84,23 @@ public static byte[] compress(char[] val, int off, int len) {
         return null;
     }
 ```
+* 当char[]-->>byte[],编码方式是UTF16时，需要根据长度翻倍，也就是构建一个翻倍的byte数组
+```java
+  static final int MAX_LENGTH = Integer.MAX_VALUE >> 1;
+  //Integer.MAX_VALUE=0x7fffffff=2147483647=Math.pow(2, 31)-1
+  //MAX_LENGTH=
+  public static byte[] newBytesFor(int len) {
+        if (len < 0) {
+            throw new NegativeArraySizeException();
+        }
+        if (len > MAX_LENGTH) {
+            throw new OutOfMemoryError("UTF16 String size is " + len +
+                                       ", should be less than " + MAX_LENGTH);
+        }
+        //翻倍存储
+        return new byte[len << 1];
+    }
+```
 ## 分析
 ```java
 //先加载静态代码块 COMPACT_STRINGS = true; 
