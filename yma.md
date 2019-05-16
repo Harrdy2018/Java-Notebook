@@ -101,6 +101,60 @@ public static byte[] compress(char[] val, int off, int len) {
         return new byte[len << 1];
     }
 ```
+*
+```java
+package com.lukang.www;
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    char[] cc=new char[]{'a','b','c'};
+    byte[] res=Test.toBytes(cc, 0, 3);
+    for(byte rr:res){
+      System.out.println(rr); //res-->[0,97,0,98,0,99]
+    }
+  }
+}
+class Test{
+  private static final int HI_BYTE_SHIFT=8;
+  private static final int LO_BYTE_SHIFT=0;
+  static final int MAX_LENGTH = Integer.MAX_VALUE >> 1;
+  public static byte[] toBytes(char[] value, int off, int len) {
+    byte[] val = newBytesFor(len);
+    for (int i = 0; i < len; i++) {
+        System.out.println(value[off]);//a b c
+        putChar(val, i, value[off]);
+        off++;
+    }
+    return val;
+}
+  static void putChar(byte[] val, int index, int c) {
+    System.out.println(c);//97 98 99
+    index <<= 1;//index*2-->0 2 4
+    /*
+    当index=2时；
+    c=98---int 00000000 00000000 00000000 01100010
+    c>>8---获取高位 00000000 00000000 00000000--byte截取 00000000
+    index++ index=3
+    c>>0--获取低位 00000000 00000000 00000000 01100010--byte截取 01100010
+    循环一遍得到
+    byte[]--[0,97,0,98,0,99]
+    */
+    val[index++] = (byte)(c >> HI_BYTE_SHIFT);
+    val[index]   = (byte)(c >> LO_BYTE_SHIFT);
+}
+  public static byte[] newBytesFor(int len) {
+    if (len < 0) {
+        throw new NegativeArraySizeException();
+    }
+    if (len > MAX_LENGTH) {
+        throw new OutOfMemoryError("UTF16 String size is " + len +", should be less than " + MAX_LENGTH);
+    }
+    return new byte[len << 1];
+}
+}
+```
 ## 分析
 ```java
 //先加载静态代码块 COMPACT_STRINGS = true; 
