@@ -109,8 +109,11 @@ public class GetPropertyAction implements PrivilegedAction<String> {
 }
 /*
 System.getProperties()
-public final class System
-
+public final class System{
+    private static volatile SecurityManager security;
+    public static SecurityManager getSecurityManager() {
+        return security;
+    }
     public static Properties getProperties() {
         SecurityManager sm = getSecurityManager();
         if (sm != null) {
@@ -119,6 +122,8 @@ public final class System
 
         return props;
     }
+
+}
 所以System.getProperties()可以直接拿来用，不用深究了
 */
 ```
