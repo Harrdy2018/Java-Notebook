@@ -401,4 +401,40 @@ System.out.println((char)257); //ā
         this.coder = UTF16;
         this.value = StringUTF16.toBytes(value, off, len);
     }
+//存储结果
+    /*
+    char[] value-------['ÿ','Ā','ā']
+    int off------------0
+    int len------------3
+    */
+    public static byte[] toBytes(char[] value, int off, int len) {
+        //查看源码知道，实际上使val=len*2
+        byte[] val = newBytesFor(len);
+        for (int i = 0; i < len; i++) {
+            putChar(val, i, value[off]);
+            off++;
+        }
+        return val;
+    }
+    /*
+    value[off]--int c把每一个char类型化为32的整形
+    ÿ--255--00000000 00000000 00000000 11111111--[0,-1]
+    Ā--256--00000000 00000000 00000001 00000000--[1,0]
+    ā--257--00000000 00000000 00000001 00000001--[1,1]
+    
+    ----------------------------------------------------[0,-1,1,0,1,1]
+    */
+    static void putChar(byte[] val, int index, int c) {
+        assert index >= 0 && index < length(val) : "Trusted caller missed bounds check";
+        index <<= 1;
+        val[index++] = (byte)(c >> HI_BYTE_SHIFT);//截取高8位
+        val[index]   = (byte)(c >> LO_BYTE_SHIFT);//截取低8位
+    }
+//存储最终结果
+    char[] c=new char[]{'ÿ','Ā','ā'};
+    String s=new String(c);
+    System.out.println(s); //ÿĀā
+对于字符串"ÿĀā"来说，他的两个不可见的私有属性为：
+  this.coder------byte类型，1代表UTF16(两个字节存储)
+  this.value------byte[]类型，[0,-1,1,0,1,1]
 ```
