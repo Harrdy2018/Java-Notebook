@@ -323,7 +323,62 @@ class Test{
     }
 ```
 ## `String`类一些方法的实现
-* 
+* `public String substring(int beginIndex){}`
+```java
+    //不改变源字符串
+    String ss=new String("lukang");
+    String res=ss.substring(1);
+    System.out.println(ss); //lukang
+    System.out.println(res); //ukang
+    for(int i=0;i<ss.length();i++){
+      System.out.println(ss.codePointAt(i));//108,117,107,97,110,103
+    }
+    
+//第一步
+/*
+ss是字符串实例 value可以用(byte)(char 每一个lukang计算出来)
+this.coder---LATIN1
+this.value---[108,117,107,97,110,103]
+*/
+    public String substring(int beginIndex) {
+        if (beginIndex < 0) {
+            throw new StringIndexOutOfBoundsException(beginIndex);
+        }
+        int subLen = length() - beginIndex;
+        if (subLen < 0) {
+            throw new StringIndexOutOfBoundsException(subLen);
+        }
+        if (beginIndex == 0) {
+            return this;
+        }
+        return isLatin1() ? StringLatin1.newString(value, beginIndex, subLen)
+                          : StringUTF16.newString(value, beginIndex, subLen);
+    }
+//第二步调用StringLatin1.newString([108,117,107,97,110,103], 1, 5)
+    public static String newString(byte[] val, int index, int len) {
+        return new String(Arrays.copyOfRange(val, index, index + len),LATIN1);
+    }
+//第三步调用Arrays.copyOfRange([108,117,107,97,110,103], 1, 6)
+   public static byte[] copyOfRange(byte[] original, int from, int to) {
+        int newLength = to - from;
+        if (newLength < 0)
+            throw new IllegalArgumentException(from + " > " + to);
+        byte[] copy = new byte[newLength];
+        System.arraycopy(original, from, copy, 0,
+                         Math.min(original.length - from, newLength));
+        return copy;
+    }
+//返回计算new String(byte数组[117,107,97,110,103],LATIN1)
+//这个LATIN1来自import static java.lang.String.LATIN1;是一个byte类型
+//调用default默认修饰的构造器
+    String(byte[] value, byte coder) {
+        this.value = value;
+        this.coder = coder;
+    }
+//这样得到了子串res
+this.coder---LATIN1
+this.value---[117,107,97,110,103]
+```
 ***
 ## 思考`字符串以UTF16存储的过程`
 * 字符串什么时候采用UTF16存储?
