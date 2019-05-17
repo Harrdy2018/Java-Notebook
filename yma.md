@@ -101,7 +101,7 @@ public static byte[] compress(char[] val, int off, int len) {
         return new byte[len << 1];
     }
 ```
-*
+* StringUTF16.putChar()是将字符串以UTF16储存,下面只是一个例子,'abc'本身是以LATIN1存储的
 ```java
 package com.lukang.www;
 /**
