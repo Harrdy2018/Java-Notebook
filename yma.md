@@ -325,7 +325,7 @@ class Test{
 ## `String`类一些方法的实现
 * 
 ***
-## 思考1
+## 思考
 * 字符串什么时候采用UTF16存储?
 ```
 每一个字符串的实例都有两个私有属性
@@ -437,4 +437,129 @@ System.out.println((char)257); //ā
 对于字符串"ÿĀā"来说，他的两个不可见的私有属性为：
   this.coder------byte类型，1代表UTF16(两个字节存储)
   this.value------byte[]类型，[0,-1,1,0,1,1]
+```
+* 既然字符串是以byte[]存储，那是如何编码的呢？
+```
+预备知识：获取系统信息？
+  System.out.println(System.getProperty("java.version"));//11.0.3
+  System.out.println(Charset.defaultCharset());//UTF-8
+```
+* 编码过程
+```java
+//整个抽象过程
+    char[] c=new char[]{'ÿ','Ā','ā'};
+    String s=new String(c);
+    byte[] b=s.getBytes();//[-61,-65,-60,-128,-60,-127]
+    for(byte bb:b){
+      System.out.println(bb);
+    }
+//第一步
+    public byte[] getBytes() {
+        return StringCoding.encode(coder(), value);
+    }
+//调用coder()
+    byte coder() {
+        //COMPACT_STRINGS是静态的常量，为true,也就是coder,此时coder也就是UTF16
+        return COMPACT_STRINGS ? coder : UTF16;
+    }
+//继续调用
+   static byte[] encode(byte coder, byte[] val) {
+        //执行第一个if,因为文件的默认编码就是UTF-8
+        Charset cs = Charset.defaultCharset();
+        if (cs == UTF_8) {
+            return encodeUTF8(coder, val, true);
+        }
+        if (cs == ISO_8859_1) {
+            return encode8859_1(coder, val);
+        }
+        if (cs == US_ASCII) {
+            return encodeASCII(coder, val);
+        }
+        StringEncoder se = deref(encoder);
+        if (se == null || !cs.name().equals(se.cs.name())) {
+            se = new StringEncoder(cs, cs.name());
+            set(encoder, se);
+        }
+        return se.encode(coder, val);
+    }
+//继续调用
+   /*
+   byte coder----1 UTF16
+   byte[] val----[0,-1,1,0,1,1]
+   boolean doReplace----true
+   */
+    private static byte[] encodeUTF8(byte coder, byte[] val, boolean doReplace) {
+        //执行第一个if
+        if (coder == UTF16)
+            return encodeUTF8_UTF16(val, doReplace);
+
+        if (!hasNegatives(val, 0, val.length))
+            return Arrays.copyOf(val, val.length);
+
+        int dp = 0;
+        byte[] dst = new byte[val.length << 1];
+        for (int sp = 0; sp < val.length; sp++) {
+            byte c = val[sp];
+            if (c < 0) {
+                dst[dp++] = (byte)(0xc0 | ((c & 0xff) >> 6));
+                dst[dp++] = (byte)(0x80 | (c & 0x3f));
+            } else {
+                dst[dp++] = c;
+            }
+        }
+        if (dp == dst.length)
+            return dst;
+        return Arrays.copyOf(dst, dp);
+    }
+//继续调用
+    private static byte[] encodeUTF8_UTF16(byte[] val, boolean doReplace) {
+        int dp = 0;
+        int sp = 0;
+        int sl = val.length >> 1;
+        byte[] dst = new byte[sl * 3];
+        char c;
+        while (sp < sl && (c = StringUTF16.getChar(val, sp)) < '\u0080') {
+            // ascii fast loop;
+            dst[dp++] = (byte)c;
+            sp++;
+        }
+        while (sp < sl) {
+            c = StringUTF16.getChar(val, sp++);
+            if (c < 0x80) {
+                dst[dp++] = (byte)c;
+            } else if (c < 0x800) {
+                dst[dp++] = (byte)(0xc0 | (c >> 6));
+                dst[dp++] = (byte)(0x80 | (c & 0x3f));
+            } else if (Character.isSurrogate(c)) {
+                int uc = -1;
+                char c2;
+                if (Character.isHighSurrogate(c) && sp < sl &&
+                    Character.isLowSurrogate(c2 = StringUTF16.getChar(val, sp))) {
+                    uc = Character.toCodePoint(c, c2);
+                }
+                if (uc < 0) {
+                    if (doReplace) {
+                        dst[dp++] = '?';
+                    } else {
+                        throwUnmappable(sp - 1, 1); // or 2, does not matter here
+                    }
+                } else {
+                    dst[dp++] = (byte)(0xf0 | ((uc >> 18)));
+                    dst[dp++] = (byte)(0x80 | ((uc >> 12) & 0x3f));
+                    dst[dp++] = (byte)(0x80 | ((uc >>  6) & 0x3f));
+                    dst[dp++] = (byte)(0x80 | (uc & 0x3f));
+                    sp++;  // 2 chars
+                }
+            } else {
+                // 3 bytes, 16 bits
+                dst[dp++] = (byte)(0xe0 | ((c >> 12)));
+                dst[dp++] = (byte)(0x80 | ((c >>  6) & 0x3f));
+                dst[dp++] = (byte)(0x80 | (c & 0x3f));
+            }
+        }
+        if (dp == dst.length) {
+            return dst;
+        }
+        return Arrays.copyOf(dst, dp);
+    }
 ```
