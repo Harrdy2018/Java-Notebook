@@ -362,7 +362,7 @@ System.out.println((char)257); //ā
             this.coder = "".coder;
             return;
         }
-        /*
+        ****************************************************************************************************
         //执行
         //但是调用byte[] val = StringUTF16.compress(value, off, len);是这样一个过程，分为两步
         public static byte[] compress(char[] val, int off, int len) {
@@ -388,7 +388,7 @@ System.out.println((char)257); //ā
             }
             return len;
         }
-        */
+        ****************************************************************************************************
         if (COMPACT_STRINGS) {
             byte[] val = StringUTF16.compress(value, off, len);
             if (val != null) {
@@ -530,7 +530,7 @@ System.out.println((char)257); //ā
             /*
                 //下面的StringUTF16.getChar(val, sp++)是用来提取以UTF16编码的字符
                 //byte[] val----[0,-1,1,0,1,1] 执行StringUTF16.getChar(val, 1)
-                /*
+                *****************************************************************************
                 index=1---index=2
                 val[2] & 0xff---00000001
                 ((val[2] & 0xff) << HI_BYTE_SHIFT)---00000001 00000000
@@ -538,7 +538,7 @@ System.out.println((char)257); //ā
                 val[3] & 0xff---00000000
                 ((val[3]   & 0xff) << LO_BYTE_SHIFT)---00000000
                 (char)00000001 00000000---(char)256---'Ā'
-                */
+                ****************************************************************************
                 static char getChar(byte[] val, int index) {
                     assert index >= 0 && index < length(val) : "Trusted caller missed bounds check";
                     index <<= 1;
