@@ -515,18 +515,41 @@ System.out.println((char)257); //ā
     private static byte[] encodeUTF8_UTF16(byte[] val, boolean doReplace) {
         int dp = 0;
         int sp = 0;
+        //s1=3
         int sl = val.length >> 1;
         byte[] dst = new byte[sl * 3];
         char c;
+        //(char)'\u0080'=-128 每一个c都比这个大，不执行
         while (sp < sl && (c = StringUTF16.getChar(val, sp)) < '\u0080') {
             // ascii fast loop;
             dst[dp++] = (byte)c;
             sp++;
         }
+        //执行
         while (sp < sl) {
+            /*
+                //下面的StringUTF16.getChar(val, sp++)是用来提取以UTF16编码的字符
+                //byte[] val----[0,-1,1,0,1,1] 执行StringUTF16.getChar(val, 1)
+                /*
+                index=1---index=2
+                val[2] & 0xff---00000001
+                ((val[2] & 0xff) << HI_BYTE_SHIFT)---00000001 00000000
+                index=3
+                val[3] & 0xff---00000000
+                ((val[3]   & 0xff) << LO_BYTE_SHIFT)---00000000
+                (char)00000001 00000000---(char)256---'Ā'
+                */
+                static char getChar(byte[] val, int index) {
+                    assert index >= 0 && index < length(val) : "Trusted caller missed bounds check";
+                    index <<= 1;
+                    return (char)(((val[index++] & 0xff) << HI_BYTE_SHIFT) |
+                                  ((val[index]   & 0xff) << LO_BYTE_SHIFT));
+                }
+            */
             c = StringUTF16.getChar(val, sp++);
             if (c < 0x80) {
                 dst[dp++] = (byte)c;
+            //0x800=16*16*8=2048执行这个
             } else if (c < 0x800) {
                 dst[dp++] = (byte)(0xc0 | (c >> 6));
                 dst[dp++] = (byte)(0x80 | (c & 0x3f));
