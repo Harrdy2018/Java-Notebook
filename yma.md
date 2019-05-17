@@ -322,3 +322,83 @@ class Test{
         return false;
     }
 ```
+## `String`类一些方法的实现
+* 
+***
+## 思考1
+* 字符串什么时候采用UTF16存储?
+```
+每一个字符串的实例都有两个私有属性
+        this.coder------byte类型，解决字符串以哪种方式进行存储，0代表LATIN1(一个字节存储，默认的方式),1代表UTF16(两个字节存储)
+        this.value------byte[]类型，字符串每个字符存储的值
+问题：既然字符串默认采用LATIN1存储，则最大可存储到01111111=127,超过127之后怎么办？
+我们采用255,256,257作演示例子，
+首先我们要知道这三个数字代表什么字符？
+System.out.println((char)255); //ÿ
+System.out.println((char)256); //Ā
+System.out.println((char)257); //ā
+```
+* 存储过程
+```java
+//整个抽象过程
+    char[] c=new char[]{'ÿ','Ā','ā'};
+    String s=new String(c);
+    System.out.println(s); //ÿĀā
+//第一步 进入到构造函数
+ public String(char value[]) {
+        this(value, 0, value.length, null);
+    }
+//调用
+    /*
+    char[]------['ÿ','Ā','ā']
+    int off------0
+    int len------3
+    Void sig-----null
+    */
+    String(char[] value, int off, int len, Void sig) {
+        //不执行
+        if (len == 0) {
+            this.value = "".value;
+            this.coder = "".coder;
+            return;
+        }
+        /*
+        //执行
+        //但是调用byte[] val = StringUTF16.compress(value, off, len);是这样一个过程，分为两步
+        public static byte[] compress(char[] val, int off, int len) {
+            byte[] ret = new byte[len];
+            //从下面分析可以得到compress(val, off, ret, 0, len)=0，所以函数返回null
+            if (compress(val, off, ret, 0, len) == len) {
+                return ret;
+            }
+            return null;
+        }
+        
+        //在将char[]->byte[]过程中，只要有一个字符大于0xFF=255,我们就将byte[]长度返回0
+        public static int compress(char[] src, int srcOff, byte[] dst, int dstOff, int len) {
+            for (int i = 0; i < len; i++) {
+                char c = src[srcOff];
+                if (c > 0xFF) {
+                    len = 0;
+                    break;
+                }
+                dst[dstOff] = (byte)c;
+                srcOff++;
+                dstOff++;
+            }
+            return len;
+        }
+        */
+        if (COMPACT_STRINGS) {
+            byte[] val = StringUTF16.compress(value, off, len);
+            if (val != null) {
+                this.value = val;
+                this.coder = LATIN1;
+                return;
+            }
+        }
+        //从上面分析可以得到此时应该采用UTF16编码
+        this.coder = UTF16;
+        this.value = StringUTF16.toBytes(value, off, len);
+    }
+```
