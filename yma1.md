@@ -4,7 +4,7 @@ package java.lang;
 public final class System {
 }
 ```
-## [System.out初始化为null?](https://stackoverflow.com/questions/31743760/system-out-is-declared-as-static-final-and-initialized-with-null)
+## [System.out is declared as static final and initialized with null?](https://stackoverflow.com/questions/31743760/system-out-is-declared-as-static-final-and-initialized-with-null)
 ## 问题发现
 ```
 System.out为什么不为null?
@@ -75,4 +75,86 @@ class TestB{
     private static native void setIn0(InputStream in);
     private static native void setOut0(PrintStream out);
     private static native void setErr0(PrintStream err);
+```
+## [What does the registerNatives method do?](https://stackoverflow.com/questions/1010645/what-does-the-registernatives-method-do)
+## [Resetting Standard output Stream](https://stackoverflow.com/questions/5339499/resetting-standard-output-stream)
+* 重设标准输出流
+```java
+//正常情况下
+package com.lukang.www;
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    System.err.println("err err err");//红色的 err err err
+    System.out.println("out out out");//白色的 out out out  
+  }
+}
+```
+```java
+package com.lukang.www;
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    System.setOut(System.err);
+    System.err.println("err err err");//红色的 err err err
+    System.out.println("out out out");//红色的 out out out  
+  }
+}
+```
+* 将输出设置到文件中
+```java
+package com.lukang.www;
+
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    // System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+    File logFile = new File("kk.txt");
+    try {
+      System.setOut(new PrintStream(logFile));
+      System.out.print("out out out");
+      System.err.println("err err err");
+    } catch (FileNotFoundException e) {
+      System.out.println(e);
+    }
+  }
+}
+```
+```java
+package com.lukang.www;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+/**
+ * App
+ */
+public class App {
+  public static void main(String[] args) {
+    /*
+      文件输出流，相当于写文件
+      FileOutputStream是OutputStream流的子类
+      Creates a file output stream to write to the file with the specified name.
+      new FileOutputStream();
+    */
+    try {
+      System.setOut(new PrintStream(new FileOutputStream("oo.txt")));
+    } catch (FileNotFoundException e) {
+      System.out.println(e);
+    }
+    System.out.print("我要写文件");
+  }
+}
 ```
