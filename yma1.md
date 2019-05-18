@@ -4,6 +4,7 @@ package java.lang;
 public final class System {
 }
 ```
+## [System.out初始化为null?](https://stackoverflow.com/questions/31743760/system-out-is-declared-as-static-final-and-initialized-with-null)
 ## 问题发现
 ```
 System.out为什么不为null?
