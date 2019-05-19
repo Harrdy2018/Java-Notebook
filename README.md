@@ -15,3 +15,4 @@
 * [父类引用指向子类对象](./msta.java)
 * [静态块，类加载](./mstb.java)
 * [for循环](./mstc.java)
+* [(int)(char)(byte)-1==-1?](./mstd.java)
