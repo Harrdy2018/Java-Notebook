@@ -11,3 +11,5 @@
 * [System](./yma1.md)
 ### `package java.io`
 * [File](./ymb.md)
+## 面试题
+* [父类引用指向子类对象](./msta.md)
