@@ -12,5 +12,5 @@
 ### `package java.io`
 * [File](./ymb.md)
 ## 面试题
-* [父类引用指向子类对象](./msta.md)
+* [父类引用指向子类对象](./msta.java)
 * [静态块，类加载](./mstb.java)
