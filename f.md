@@ -22,3 +22,24 @@
 * short -2<sup>15</sup>~2<sup>15</sup>-1
 * int   -2<sup>31</sup>~2<sup>31</sup>-1
 * long  -2<sup>63</sup>~2<sup>63</sup>-1
+## 包装类型
+```
+Byte Short Integer Long
+Float Double
+Char
+Boolean
+```
+## 转换问题
+* 内存足够，转换不会造成数据的丢失，自动转换
+```
+byte-->short-->int-->long-->float-->double
+int可以自动转换为long,float。因为短的转换为长的不会造成数据的丢失!!!
+```
+* 强制类型转换
+## 问题
+* 为什么byte b=12;short s=12不报错？
+```
+12默认为int,当赋值给范围小一点的数值时，JVM会自定义一次隐私类型转换
+byte b=(byte)-129;
+JVM想把-129进行隐私类型转换，但是转不了，所以byte b=-129;会报错,所以需要进行强制类型转换!!!
+```
