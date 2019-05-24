@@ -1,4 +1,19 @@
 # `String`类源码分析
+```
+String:字符串，使用一对""引起来表示
+1,String申明为final,不可被继承
+2,String实现了java.io.Serializable接口：表示字符串是支持序列化的
+        实现了Comparable<String>接口：表示String可以比较大小
+4,String:代表不可变的字符序列。简称：不可变性
+  体现：1,当对字符串重新赋值时
+3,String内部定义了final char[] value用于存储字符串数据
+5,通过字面量的方式(区别于new)给一个字符串赋值，此时的字符串值申明在字符串常量池中
+6,字符串常量池中是不会存储相同内容的字符串的
+    //如果是引用类型，==比较的是地址
+    String a="qwer";
+    String b="qwer";
+    System.out.println(a==b);//true
+```
 ```java
 public final class String
     implements java.io.Serializable, Comparable<String>, CharSequence {
