@@ -37,3 +37,15 @@ Integer.parseInt(String s);
 Short.parseShort(String s);
 Long.parseLong(String s);
 ```
+* 其他类型-->String
+```java
+static String	valueOf​(boolean b)	
+static String	valueOf​(char c)	
+static String	valueOf​(char[] data)	
+static String	valueOf​(char[] data, int offset, int count)	
+static String	valueOf​(double d)	
+static String	valueOf​(float f)	
+static String	valueOf​(int i)	
+static String	valueOf​(long l)	
+static String	valueOf​(Object obj)	
+```
