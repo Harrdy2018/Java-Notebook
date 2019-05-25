@@ -71,3 +71,11 @@ byte[]	getBytes()
 byte[]	getBytes​(String charsetName)	
 byte[]	getBytes​(Charset charset)
 ```
+## `String`、`StringBuffer`、`StringBuilder`三者异同
+```
+相同点：底层使用char[]存储
+不同点：
+String-------不可变的字符序列
+StringBuffer--可变的字符序列；线程安全的，效率低
+StringBuilder--可变的字符序列；线程不安全的，效率高
+```
