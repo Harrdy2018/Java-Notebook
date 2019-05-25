@@ -6,6 +6,7 @@
 * [深拷贝与浅拷贝](./d.md)
 * [String a="hello" String b="hello" a==b 返回true的问题分析](./e.md)
 * [基本类型和包装类型](./f.md)
+* [String不可变性](./g.md)
 ## 常用类源码分析
 ### `package java.lang`
 * [String](./yma.md)
