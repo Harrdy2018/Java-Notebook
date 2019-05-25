@@ -60,3 +60,14 @@ String​(char[] value, int offset, int count)
 char[]	toCharArray()
 void	getChars​(int srcBegin, int srcEnd, char[] dst, int dstBegin)
 ```
+* byte[]-->String
+```java
+String​(byte[] bytes)	
+String​(byte[] bytes, int offset, int length)
+```
+* String-->byte[]
+```java
+byte[]	getBytes()
+byte[]	getBytes​(String charsetName)	
+byte[]	getBytes​(Charset charset)
+```
