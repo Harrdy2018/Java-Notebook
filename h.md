@@ -78,4 +78,19 @@ byte[]	getBytes​(Charset charset)
 String-------不可变的字符序列
 StringBuffer--可变的字符序列；线程安全的，效率低
 StringBuilder--可变的字符序列；线程不安全的，效率高
+效率比较：
+StringBuilder>StringBuffer>String
 ```
+## `StringBuffer`类的常用方法
+* StringBuffer    append(xxx)
+* StringBuffer	  delete​(int start, int end)
+* StringBuffer	  replace​(int start, int end, String str)
+* StringBuffer	  insert​(int offset, xxx)
+* StringBuffer	  reverse()
+* int	            indexOf​(String str)	
+* int	            indexOf​(String str, int fromIndex)
+* String	        substring​(int start)	
+* String	        substring​(int start, int end)
+* int             length()
+* char	          charAt​(int index)
+* void	          setCharAt​(int index, char ch)
