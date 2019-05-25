@@ -17,3 +17,4 @@
 * [静态块，类加载](./mstb.java)
 * [for循环](./mstc.java)
 * [(int)(char)(byte)-1==-1?](./mstd.java)
+* [字符串拼接](./mste.java)
