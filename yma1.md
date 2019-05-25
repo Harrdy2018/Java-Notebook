@@ -158,3 +158,13 @@ public class App {
   }
 }
 ```
+***
+## 日期时间API
+* System.currentTimeMillis();
+```
+用来返回当前时间与1970/1/1/0/0/0之间以毫秒为单位的时间差
+计算时间的主要标准：
+UTC-->Coordinated Universal Time
+GMT-->Greenwich Mean Time
+CST-->Central Standard Time
+```
