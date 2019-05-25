@@ -1,3 +1,4 @@
+# `String`基本知识复习
 ## String 常用方法
 ***
 * int     length()
@@ -29,3 +30,10 @@
 * boolean	matches(String regex)
 * String[]	split(String regex)
 * String[]	split(String regex, int limit)
+## 转换
+* String-->short,int,long
+```java
+Integer.parseInt(String s);
+Short.parseShort(String s);
+Long.parseLong(String s);
+```
