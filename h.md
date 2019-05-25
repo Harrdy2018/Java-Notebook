@@ -49,3 +49,14 @@ static String	valueOf​(int i)
 static String	valueOf​(long l)	
 static String	valueOf​(Object obj)	
 ```
+* char[]-->String
+```java
+//String构造器
+String​(char[] value)	
+String​(char[] value, int offset, int count)
+```
+* String-->char[]
+```
+char[]	toCharArray()
+void	getChars​(int srcBegin, int srcEnd, char[] dst, int dstBegin)
+```
