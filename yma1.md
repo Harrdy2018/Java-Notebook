@@ -168,3 +168,20 @@ UTC-->Coordinated Universal Time
 GMT-->Greenwich Mean Time
 CST-->Central Standard Time
 ```
+* `java.util.Date`
+```
+构造器：
+Date()
+Date​(long date)
+方法：
+long	getTime()
+String	toString()
+```
+* `java.sql.Date`
+```
+构造器：
+Date​(long date)
+方法：
+String	toString()
+java.sql.Date是java.util.Date的子类
+```
