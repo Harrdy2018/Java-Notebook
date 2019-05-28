@@ -268,3 +268,39 @@ public class WindowTest {
   }
 }
 ```
+## `LocalDate`、`LocalTime`、`LocalDateTime`
+```java
+package com.lukang.www;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+/**
+ * 时间
+ */
+public class WindowTest {
+  public static void main(String[] args) {
+    //now():获取当前的日期、时间、日期+时间
+    LocalDate ld=LocalDate.now();
+    LocalTime lt=LocalTime.now();
+    LocalDateTime ldt=LocalDateTime.now();
+    System.out.println(ld);
+    System.out.println(lt);
+    System.out.println(ldt);
+    //of():指定
+    LocalDateTime ldt1=LocalDateTime.of(2000,10,6,5,12,5);
+    System.out.println(ldt1);
+    //getXxx()
+    System.out.println(ldt.getDayOfYear());
+    System.out.println(ldt.getDayOfMonth());
+    //体现不可变性
+    System.out.println(ldt.withDayOfMonth(29).getDayOfMonth());
+    System.out.println(ldt.getDayOfMonth());
+    //plusXxx()
+    System.out.println(ldt.plusMonths(3));
+    //minusXxx()
+    System.out.println(ldt.minusDays(23));
+  }
+}
+```
