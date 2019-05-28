@@ -185,3 +185,42 @@ Date​(long date)
 String	toString()
 java.sql.Date是java.util.Date的子类
 ```
+## `SimpleDateFormat`
+```java
+package com.lukang.www;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * SimpleDateFormat
+ */
+public class WindowTest {
+  public static void main(String[] args) {
+    // 实例化SimpleDateFormat:使用默认的构造器
+    SimpleDateFormat sdf = new SimpleDateFormat();
+    // 格式化：日期--->字符串
+    Date date = new Date();
+    System.out.println(date);
+    String s = sdf.format(date);
+    System.out.println(s);
+    // 解析：格式化的逆过程,字符串--->日期
+    String str = "2019/5/28 下午12:53";
+    try {
+      Date dd = sdf.parse(str);
+      System.out.println(dd);
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    /*
+     * 指定构造器
+    */
+    SimpleDateFormat newSDF=new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+    SimpleDateFormat newSDF1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    System.out.println(newSDF.format(date));
+    System.out.println(newSDF1.format(date));
+  }
+}
+```
