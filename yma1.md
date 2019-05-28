@@ -224,3 +224,47 @@ public class WindowTest {
   }
 }
 ```
+## `Calendar`
+```java
+package com.lukang.www;
+
+import java.util.Calendar;
+import java.util.Date;
+
+/**
+ * Calendar
+ */
+public class WindowTest {
+  public static void main(String[] args) {
+    /*
+     * 实例化
+     * A:创建其子类GrerorianCalendar的对象
+     * B:调用其静态方法getInstance()
+     */
+    Calendar cal=Calendar.getInstance();
+    System.out.println(cal);
+    /**
+     * 常用方法
+     * get()
+     * set()
+     * add()
+     * getTime()
+     * setTime()
+     */
+    System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+    System.out.println(cal.get(Calendar.DAY_OF_WEEK));
+    //
+    cal.set(Calendar.DAY_OF_MONTH,22);
+    System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+    //
+    cal.add(Calendar.DAY_OF_MONTH,3);
+    System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+    //getTime():日历类--->Date
+    System.out.println(cal.getTime());
+    //setTime():Date--->日历类
+    Date dd=new Date();
+    cal.setTime(dd);
+    System.out.println(cal.get(Calendar.DAY_OF_MONTH));
+  }
+}
+```
