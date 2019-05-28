@@ -304,3 +304,26 @@ public class WindowTest {
   }
 }
 ```
+## `Instant`
+```java
+package com.lukang.www;
+
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+
+/**
+ * Instant
+ */
+public class WindowTest {
+  public static void main(String[] args) {
+    Instant i1=Instant.now();
+    System.out.println(i1);
+    OffsetDateTime osdt=i1.atOffset(ZoneOffset.ofHours(8));
+    System.out.println(osdt);
+    System.out.println(i1.toEpochMilli());
+    Instant i2=Instant.ofEpochMilli(1559022537421L);
+    System.out.println(i2);
+  }
+}
+```
