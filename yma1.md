@@ -327,3 +327,39 @@ public class WindowTest {
   }
 }
 ```
+***
+## `java.time.format.DateTimeFormatter`
+```java
+package com.lukang.www;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.time.temporal.TemporalAccessor;
+
+/**
+ * DateTimeFormatter
+ */
+public class WindowTest {
+  public static void main(String[] args) {
+    //预定义的标准格式
+    DateTimeFormatter dtf=DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    //格式化class--->字符串
+    LocalDateTime ldt=LocalDateTime.now();
+    System.out.println(ldt);
+    String s=dtf.format(ldt);
+    System.out.println(s);
+    //解析
+    TemporalAccessor parse=dtf.parse(s);
+    System.out.println(parse);
+    //本地化相关的格式
+    DateTimeFormatter dtf2=DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+    String s2=dtf2.format(ldt);
+    System.out.println(s2);
+    //自定义格式
+    DateTimeFormatter dtf3=DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+    String s3=dtf3.format(ldt);
+    System.out.println(s3);
+  }
+}
+```
