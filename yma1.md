@@ -4,6 +4,25 @@ package java.lang;
 public final class System {
 }
 ```
+```java
+package com.lukang.www;
+
+/**
+ * WindowTest
+ */
+public class WindowTest {
+
+  public static void main(String[] args) {
+    System.out.println(System.getProperty("java.version"));
+    System.out.println(System.getProperty("java.home"));
+    System.out.println(System.getProperty("os.name"));
+    System.out.println(System.getProperty("os.version"));
+    System.out.println(System.getProperty("user.name"));
+    System.out.println(System.getProperty("user.home"));
+    System.out.println(System.getProperty("user.dir"));
+  }
+}
+```
 ## [System.out is declared as static final and initialized with null?](https://stackoverflow.com/questions/31743760/system-out-is-declared-as-static-final-and-initialized-with-null)
 ## 问题发现
 ```
