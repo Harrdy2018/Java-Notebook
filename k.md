@@ -79,3 +79,19 @@ Create Table: CREATE TABLE `emp` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 1 row in set (0.00 sec)
 ```
+* 插入数据
+```mysql
+MariaDB [sqlTestDb]> select * from emp;
++-------+-----------+-----------+------------+---------+
+| empno | ename     | job       | hiredate   | sal     |
++-------+-----------+-----------+------------+---------+
+|  6060 | lixinghua | jingli    | 2009-09-16 | 2000.30 |
+|  7369 | zhangsan  | zongjian  | 2003-10-09 | 1500.90 |
+|  7698 | five      | cahngzhan | 2005-03-12 |  800.00 |
+|  7762 | Qing      | shuji     | 2005-03-09 | 1000.00 |
+|  7782 | zhanggang | zuzhang   | 2005-01-12 | 2500.00 |
+|  7839 | caochao   | caiwu     | 2006-09-01 | 2500.00 |
+|  8964 | four      | boss      | 2003-10-01 | 3000.00 |
++-------+-----------+-----------+------------+---------+
+7 rows in set (0.05 sec)
+```
