@@ -349,3 +349,39 @@ public class SQLDemo {
   }
 }
 ```
+*** 
+### 如何改进编写代码环境
+```
+我为什么在Linux上安装MySQL?
+Windows上安装比较复杂，Linux上超级简单。
+虚拟机上运行MySQL注意什么问题？
+你在虚拟机上运行MySQL,又要在上面配置一套java环境，在linux上运行会越来越卡，怎么解决呢？
+物理机远程访问虚拟机的MySQL
+虚拟机你是打算怎么装?桥接方式
+```
+* 物理机如何远程访问虚拟机的MySQL
+```
+第一：我的虚拟机用的桥接方式，Net方式没试过。
+第二：虚拟机里面的MySQL有保护机制，你从物理机访问虚拟机的MySQL是不允许的。
+```
+* 在虚拟机的MySQL修改权限
+```
+grant 权限 on 数据库名.表名 to 用户@登录主机 identified by 用户密码;
+flush privileges;
+
+权限  
+all privileges
+select,insert,update,delete
+
+登录主机
+localhost 只能在本机
+%         可以远程
+
+例子
+grant all privileges on *.* to 'root'@'%' indentified by '1234';
+容许远程主机以用户名root密码1234登录到这个数据库，他可以对里面的所有数据库和表执行任何操作
+```
+* 效果
+```
+我可以直接在windows上使用java代码远程操作数据库，在linux上我只需要操作数据库即可。
+```
