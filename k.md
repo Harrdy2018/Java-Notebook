@@ -218,7 +218,7 @@ public class SQLDemo {
   }
 }
 ```
-**** 更新数据
+#### 更新数据
 ```java
 package com.harrdy.www;
 
@@ -283,4 +283,7 @@ public class SQLDemo {
     }
   }
 }
+```
+#### 删除数据
+```java
 ```
