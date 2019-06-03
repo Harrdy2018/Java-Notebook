@@ -63,3 +63,19 @@ public class Demo1 {
   }
 }
 ```
+### 增删改查
+* 建表
+```mysql
+MariaDB [sqlTestDb]> show create table emp \G;
+*************************** 1. row ***************************
+       Table: emp
+Create Table: CREATE TABLE `emp` (
+  `empno` int(4) NOT NULL,
+  `ename` varchar(10) DEFAULT NULL,
+  `job` varchar(9) DEFAULT NULL,
+  `hiredate` date DEFAULT NULL,
+  `sal` float(7,2) DEFAULT NULL,
+  PRIMARY KEY (`empno`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+1 row in set (0.00 sec)
+```
