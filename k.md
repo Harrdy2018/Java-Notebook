@@ -218,3 +218,69 @@ public class SQLDemo {
   }
 }
 ```
+**** 更新数据
+```java
+package com.harrdy.www;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.ResultSet;
+
+/**
+ * SQLDemo
+ * Database sqlTestDb
+ * table    emp
+ * port     3306
+ * userName root
+ * password 1234
+ */
+public class SQLDemo {
+
+  public static void main(String[] args) {
+    String url="jdbc:mysql://localhost:3306/sqlTestDb";
+    String user="root";
+    String password="1234";
+    String driver="com.mysql.cj.jdbc.Driver";
+    try {
+      Class.forName(driver);
+      Connection con=DriverManager.getConnection(url, user, password);
+
+      //更新数据
+      PreparedStatement psql=con.prepareStatement("update emp set ename=?,job=? where empno=?");
+      psql.setString(1, "wanggang");
+      psql.setString(2, "big_boss");
+      psql.setInt(3, 3213);
+      psql.executeUpdate();
+
+      //查询
+      Statement statement=con.createStatement();
+      String sql="select * from emp";
+      ResultSet rs=statement.executeQuery(sql);
+      System.out.println("-------------------");
+      System.out.println("执行结果如下所示:");
+      System.out.println("-------------------");
+      System.out.println("姓名"+"\t"+"职称");
+      System.out.println("-------------------");
+
+      String ename;
+      String job;
+      while(rs.next()){
+        //System.out.println(rs.next());
+        ename=rs.getString("ename");
+        job=rs.getString("job");
+        System.out.println(ename+"\t"+job);
+      }
+    } catch (Exception e) {
+      //TODO: handle exception
+      System.out.println(e);
+    }finally{
+      System.out.println("success-------------success");
+    }
+  }
+}
+```
