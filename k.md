@@ -95,3 +95,56 @@ MariaDB [sqlTestDb]> select * from emp;
 +-------+-----------+-----------+------------+---------+
 7 rows in set (0.05 sec)
 ```
+#### 查询数据
+```java
+package com.harrdy.www;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+
+/**
+ * SQLDemo
+ * Database sqlTestDb
+ * table    emp
+ * port     3306
+ * userName root
+ * password 1234
+ */
+public class SQLDemo {
+
+  public static void main(String[] args) {
+    String url="jdbc:mysql://localhost:3306/sqlTestDb";
+    String user="root";
+    String password="1234";
+    String driver="com.mysql.cj.jdbc.Driver";
+    try {
+      Class.forName(driver);
+      Connection con=DriverManager.getConnection(url, user, password);
+      Statement statement=con.createStatement();
+      String sql="select * from emp";
+      ResultSet rs=statement.executeQuery(sql);
+      System.out.println("-------------------");
+      System.out.println("执行结果如下所示:");
+      System.out.println("-------------------");
+      System.out.println("姓名"+"\t"+"职称");
+      System.out.println("-------------------");
+
+      String ename;
+      String job;
+      while(rs.next()){
+        //System.out.println(rs.next());
+        ename=rs.getString("ename");
+        job=rs.getString("job");
+        System.out.println(ename+"\t"+job);
+      }
+    } catch (Exception e) {
+      //TODO: handle exception
+      System.out.println(e);
+    }finally{
+      System.out.println("success-------------success");
+    }
+  }
+}
+```
