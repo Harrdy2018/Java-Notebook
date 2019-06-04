@@ -101,3 +101,50 @@ enum Season{
   };
 }
 ```
+### enum类的主要方法
+```java
+package lukang;
+
+import java.util.Arrays;
+
+/**
+ * SeasonTestB
+ * methods
+ */
+public class SeasonTestB {
+
+  public static void main(String[] args) {
+    Season spring=Season.SPRING;
+    System.out.println(spring.toString());//SPRING
+    Season[] values=Season.values();
+    System.out.println(Arrays.toString(values));//[SPRING, SUMMER, AUTNUMN, WINTER]
+    Season winter=Season.valueOf("WINTER");
+    System.out.println(winter);
+  }
+}
+enum Season{
+  SPRING("春天","春暖花开"),
+  SUMMER("夏天","夏日炎炎"),
+  AUTNUMN("秋天","秋高气爽"),
+  WINTER("冬天","寒冬腊月");
+  private final String seasonName;
+  private final String seasonDesc;
+  private Season(String seasonName,String seasonDesc){
+    this.seasonName=seasonName;
+    this.seasonDesc=seasonDesc;
+  };
+ 
+  /**
+   * @return the seasonName
+   */
+  public String getSeasonName() {
+    return seasonName;
+  };
+  /**
+   * @return the seasonDesc
+   */
+  public String getSeasonDesc() {
+    return seasonDesc;
+  };
+}
+```
